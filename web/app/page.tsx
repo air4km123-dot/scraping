@@ -1,6 +1,6 @@
-import { fetchAllSnapshots } from "@/lib/data";
+import { fetchAllSnapshots, Product } from "@/lib/data";
 
-export const revalidate = 0; // always read the latest row from Supabase, no caching
+export const revalidate = 0; // always read the latest rows from Supabase, no caching
 
 function formatDate(d: string | null) {
   if (!d) return "no data yet";
@@ -11,6 +11,31 @@ function formatDate(d: string | null) {
   });
 }
 
+function PriceCell({ product }: { product: Product }) {
+  if (!product.priceThb) return <td className="price">—</td>;
+
+  const diff =
+    product.priceChange && product.previousPriceThb
+      ? Number(product.priceThb) - Number(product.previousPriceThb)
+      : null;
+
+  return (
+    <td className="price">
+      <span className="price-value">{product.priceThb}</span>
+      {product.priceChange === "up" && (
+        <span className="price-arrow up" title={`เพิ่มขึ้น ${diff} บาท จาก ${product.previousPriceThb}`}>
+          ▲ {diff}
+        </span>
+      )}
+      {product.priceChange === "down" && (
+        <span className="price-arrow down" title={`ลดลง ${Math.abs(diff ?? 0)} บาท จาก ${product.previousPriceThb}`}>
+          ▼ {diff}
+        </span>
+      )}
+    </td>
+  );
+}
+
 export default async function Page() {
   const snapshots = await fetchAllSnapshots();
 
@@ -18,10 +43,12 @@ export default async function Page() {
     <div className="page">
       <header className="masthead">
         <div className="eyebrow">Air 4 International — Competitor Intelligence</div>
-        <h1>Direct Competitor Tracker</h1>
+        <h1>เปรียบเทียบราคา</h1>
         <p className="sub">
-          Product lineups scraped daily from each competitor&apos;s own website.
-          Prices are shown where the competitor publishes them.
+          Product lineups scraped daily from each competitor&apos;s own website. Where a
+          price changed from the previous scrape, it&apos;s marked with{" "}
+          <span className="price-arrow up">▲</span> for an increase or{" "}
+          <span className="price-arrow down">▼</span> for a decrease.
         </p>
       </header>
 
@@ -29,7 +56,10 @@ export default async function Page() {
         {snapshots.map((s) => (
           <section className="card" key={s.module}>
             <h2>{s.module}</h2>
-            <div className="meta">last updated: {formatDate(s.latestDate)}</div>
+            <div className="meta">
+              last updated: {formatDate(s.latestDate)}
+              {s.previousDate && <> · vs {formatDate(s.previousDate)}</>}
+            </div>
             {s.products.length === 0 ? (
               <p className="empty">No data yet — run this module once.</p>
             ) : (
@@ -48,7 +78,7 @@ export default async function Page() {
                           {p.name ?? p.sourceUrl}
                         </a>
                       </td>
-                      <td className="price">{p.priceThb ?? "—"}</td>
+                      <PriceCell product={p} />
                     </tr>
                   ))}
                 </tbody>

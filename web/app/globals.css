@@ -1,11 +1,16 @@
 :root {
   --bg: #faf8f2;
   --panel: #f1ede1;
+  --sidebar-bg: #eee8d8;
   --line: #d8d2c2;
   --ink: #1c2a2e;
   --ink-soft: #647375;
   --accent: #1f7a6c;
   --accent-soft: #d9ece6;
+  --up: #1a7a3c;
+  --up-soft: #d9f0df;
+  --down: #b3311d;
+  --down-soft: #f6dbd6;
   --mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   --sans: ui-sans-serif, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
@@ -14,11 +19,16 @@
   :root {
     --bg: #12191a;
     --panel: #182322;
+    --sidebar-bg: #0d1314;
     --line: #2c3a3a;
     --ink: #eef1ee;
     --ink-soft: #8fa09c;
     --accent: #4fb3a0;
     --accent-soft: #1c3532;
+    --up: #4fbf74;
+    --up-soft: #163524;
+    --down: #e07361;
+    --down-soft: #3a1e19;
   }
 }
 
@@ -30,6 +40,86 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   line-height: 1.5;
+}
+
+a { color: inherit; }
+
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  flex: 0 0 220px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem;
+}
+
+.sidebar-brand-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.sidebar-brand-sub {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  margin-top: 0.15em;
+}
+
+.sidebar-nav {
+  list-style: none;
+  margin: 1.8rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  text-decoration: none;
+  padding: 0.55em 0.7em;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+}
+
+.sidebar-nav a .label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sidebar-nav a .hint {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+}
+
+.sidebar-nav a:hover {
+  background: var(--panel);
+}
+
+.sidebar-nav a.active {
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
+}
+
+.sidebar-nav a.active .label {
+  color: var(--accent);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .shell { flex-direction: column; }
+  .sidebar { flex: none; border-right: none; border-bottom: 1px solid var(--line); }
+  .sidebar-nav { flex-direction: row; flex-wrap: wrap; }
 }
 
 .page {
@@ -116,8 +206,64 @@ td.price {
   white-space: nowrap;
 }
 
+.price-value {
+  margin-right: 0.4em;
+}
+
+.price-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15em;
+  font-size: 0.76rem;
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+
+.price-arrow.up {
+  color: var(--up);
+  background: var(--up-soft);
+}
+
+.price-arrow.down {
+  color: var(--down);
+  background: var(--down-soft);
+}
+
 .empty {
   color: var(--ink-soft);
   font-size: 0.85rem;
   padding: 0.6rem 0;
+}
+
+.card.coming-soon {
+  max-width: 60ch;
+  padding: 1.4rem 1.4rem 1.6rem;
+}
+
+.card.coming-soon p {
+  color: var(--ink-soft);
+  margin: 0.6rem 0;
+}
+
+.card.coming-soon ul {
+  margin: 0.6rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.25em 0.6em;
 }
