@@ -12,7 +12,7 @@ export type ModuleSnapshot = {
   products: Product[];
 };
 
-const MODULES = ["karshine", "ecoair", "dynamicair", "cooltech"] as const;
+const MODULES = ["karshine", "ecoair", "dynamicair", "cooltech", "wise", "wizard"] as const;
 
 /** For one module, find its most recent scrape and group that day's
  * rows by product (source_url) into {name, price}. Every module writes

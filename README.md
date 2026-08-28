@@ -11,7 +11,8 @@ one dashboard. Built to run on free-tier infrastructure only.
 - [x] Phase 2 — storage & dedup (Supabase, verified across reruns)
 - [x] Phase 3 — daily automation (GitHub Actions cron, 07:00 Asia/Bangkok, verified live)
 - [x] Phase 4 — dashboard v1 (`web/`, Next.js — built and verified locally; not yet deployed to Vercel)
-- [x] Phase 5a — `ecoair`, `dynamicair`, `cooltech` added (lineup-only, no published prices); still open: WISE, Wizard Airklean, then Freshair/Speedclean/U Cool/NWP once their target URLs are confirmed
+- [x] Phase 5a — `ecoair`, `dynamicair`, `cooltech` added (lineup-only, no published prices)
+- [x] Phase 5b — `wise`, `wizard` added (wise has prices via WooCommerce; wizard is lineup-only). 6/10 competitors covered; still open: Freshair, Speedclean, U Cool, NWP — need confirmed target URLs
 - [ ] Phase 6 — failure monitoring & alerts
 
 ## Dashboard (`web/`)
