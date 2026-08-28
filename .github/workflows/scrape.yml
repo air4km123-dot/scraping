@@ -8,8 +8,12 @@ on:
   workflow_dispatch: {} # lets us trigger a run manually from the Actions tab to test
 
 jobs:
-  karshine:
+  scrape:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # one module failing shouldn't cancel the others
+      matrix:
+        module: [karshine, ecoair, dynamicair, cooltech]
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -23,5 +27,5 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run karshine module
-        run: python scripts/run_module.py karshine
+      - name: Run ${{ matrix.module }} module
+        run: python scripts/run_module.py ${{ matrix.module }}

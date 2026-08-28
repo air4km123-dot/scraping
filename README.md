@@ -11,7 +11,7 @@ one dashboard. Built to run on free-tier infrastructure only.
 - [x] Phase 2 — storage & dedup (Supabase, verified across reruns)
 - [x] Phase 3 — daily automation (GitHub Actions cron, 07:00 Asia/Bangkok, verified live)
 - [ ] Phase 4 — dashboard v1
-- [ ] Phase 5 — remaining modules (Eco Air, Dynamicair, Cool Tech, WISE, Wizard Airklean, then Freshair/Speedclean/U Cool/NWP once their target URLs are confirmed)
+- [x] Phase 5a — `ecoair`, `dynamicair`, `cooltech` added (lineup-only, no published prices); still open: WISE, Wizard Airklean, then Freshair/Speedclean/U Cool/NWP once their target URLs are confirmed
 - [ ] Phase 6 — failure monitoring & alerts
 
 ## Project layout
