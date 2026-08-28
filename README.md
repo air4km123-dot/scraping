@@ -10,9 +10,25 @@ one dashboard. Built to run on free-tier infrastructure only.
 - [x] Phase 1 — first scraper module (`karshine`, 92 products / 184 rows)
 - [x] Phase 2 — storage & dedup (Supabase, verified across reruns)
 - [x] Phase 3 — daily automation (GitHub Actions cron, 07:00 Asia/Bangkok, verified live)
-- [ ] Phase 4 — dashboard v1
+- [x] Phase 4 — dashboard v1 (`web/`, Next.js — built and verified locally; not yet deployed to Vercel)
 - [x] Phase 5a — `ecoair`, `dynamicair`, `cooltech` added (lineup-only, no published prices); still open: WISE, Wizard Airklean, then Freshair/Speedclean/U Cool/NWP once their target URLs are confirmed
 - [ ] Phase 6 — failure monitoring & alerts
+
+## Dashboard (`web/`)
+
+Next.js app, reads the latest day's rows per module straight from
+Supabase server-side (service role key never reaches the browser).
+
+```
+cd web
+npm install
+cp .env.local.example .env.local   # fill in the same 2 values as the root .env
+npm run dev
+```
+
+To deploy: import this repo on vercel.com (root directory `web/`), add
+`SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as Project Environment
+Variables (same values as the root `.env` / GitHub Actions secrets).
 
 ## Project layout
 
