@@ -12,6 +12,8 @@ Rows emitted per product:
   field="product_name"  value=<product heading text>
 """
 
+import re
+
 import requests
 from bs4 import BeautifulSoup
 from requests.adapters import HTTPAdapter
@@ -52,9 +54,14 @@ def scrape() -> list[dict]:
         name = h.get_text(strip=True)
         if not name or name in NON_PRODUCT_HEADINGS:
             continue
+        # Same caveat as dynamicair.py: no per-product page here, so a
+        # '#slug' fragment keeps each product's source_url distinct —
+        # otherwise dedup and the dashboard's per-product grouping would
+        # collapse all products sharing this one page into a single row.
+        slug = re.sub(r"[\s\"'/]+", "-", name).strip("-")
         rows.append({
             "module": MODULE_NAME,
-            "source_url": BASE_URL,
+            "source_url": f"{BASE_URL}#{slug}",
             "field": "product_name",
             "value": name,
         })

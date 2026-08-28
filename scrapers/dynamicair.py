@@ -16,6 +16,8 @@ Rows emitted per product blurb:
   field="product_name"  value=<blurb caption text>
 """
 
+import re
+
 import requests
 from bs4 import BeautifulSoup
 from requests.adapters import HTTPAdapter
@@ -54,9 +56,17 @@ def scrape() -> list[dict]:
         name = blurb.get_text(strip=True)
         if not name:
             continue
+        # This site has no per-product page — every product lives on the
+        # same homepage. A '#slug' fragment gives each product a distinct
+        # source_url anyway, which the dedup index and the dashboard's
+        # per-product grouping both rely on (a shared bare URL would
+        # collapse all products into one row).
+        # Thai product names have no ASCII to slugify down to, so this only
+        # strips whitespace/quotes/slashes rather than lowercasing to a-z0-9.
+        slug = re.sub(r"[\s\"'/]+", "-", name).strip("-")
         rows.append({
             "module": MODULE_NAME,
-            "source_url": BASE_URL,
+            "source_url": f"{BASE_URL}#{slug}",
             "field": "product_name",
             "value": name,
         })

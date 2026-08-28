@@ -1,0 +1,123 @@
+:root {
+  --bg: #faf8f2;
+  --panel: #f1ede1;
+  --line: #d8d2c2;
+  --ink: #1c2a2e;
+  --ink-soft: #647375;
+  --accent: #1f7a6c;
+  --accent-soft: #d9ece6;
+  --mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  --sans: ui-sans-serif, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12191a;
+    --panel: #182322;
+    --line: #2c3a3a;
+    --ink: #eef1ee;
+    --ink-soft: #8fa09c;
+    --accent: #4fb3a0;
+    --accent-soft: #1c3532;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+header.masthead {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.4rem;
+  margin-bottom: 2.2rem;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+  margin: 0.3em 0 0.2em;
+}
+
+.sub {
+  color: var(--ink-soft);
+  max-width: 60ch;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.4rem;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.2rem 1.2rem 0.6rem;
+}
+
+.card h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.1em;
+  text-transform: capitalize;
+}
+
+.card .meta {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.8rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.45em 0.4em;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+}
+
+td.price {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.empty {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  padding: 0.6rem 0;
+}
