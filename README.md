@@ -13,7 +13,34 @@ one dashboard. Built to run on free-tier infrastructure only.
 - [x] Phase 4 — dashboard v1 (`web/`, Next.js — deployed to Vercel, verified live)
 - [x] Phase 5a — `ecoair`, `dynamicair`, `cooltech` added (lineup-only, no published prices)
 - [x] Phase 5b — `wise`, `wizard` added (wise has prices via WooCommerce; wizard is lineup-only). 6/10 competitors covered; still open: Freshair, Speedclean, U Cool, NWP — need confirmed target URLs
+- [x] Dashboard v2 — sidebar nav (เปรียบเทียบราคา / งบกำไรขาดทุน / ข่าวอัพเดท), day-over-day price arrows (▲ green / ▼ red)
+- [x] `news` module — Google News RSS (per-competitor queries) + Thairath/Prachachat RSS (keyword-filtered), daily via GitHub Actions. See ToS caveat below.
+- [x] `financials` — manual-entry only (`scripts/add_financials.py`); DBD DataWarehouse blocks automated scraping (Incapsula bot protection, verified). No automated schedule.
 - [ ] Phase 6 — failure monitoring & alerts
+
+## Known issue: DBD financial data can't be automated
+
+`datawarehouse.dbd.go.th` (the public source for Thai company revenue/
+profit/employee/branch filings) sits behind Imperva/Incapsula bot
+protection — every request gets redirect-looped with `visid_incap_*`
+challenge cookies, confirmed by curl. This can't be scraped on a
+schedule. Financials are entered by hand instead, whenever someone
+looks the numbers up in a normal browser: `python
+scripts/add_financials.py --company <key> --name "<Display Name>"
+--year <YYYY> --revenue <THB> --profit <THB> [--employees N]
+[--branches N] [--source-url <DBD profile URL>]`. Real filings land
+~once a year, so there's no automation to build here — this is just
+where the numbers get typed in.
+
+## Known caveat: `news` module and Google News ToS
+
+Google News RSS's own feed text states it's for "personal,
+non-commercial use in a feed reader" — used here anyway (per-competitor
+search queries), by explicit user decision, alongside Thairath's and
+Prachachat's own RSS feeds (ordinary outlet feeds, no such
+restriction) as a second, unrestricted source so a story missed by one
+still surfaces via the other. Worth revisiting if this ever gets used
+outside internal reporting.
 
 ## Known issue: `dynamicair` doesn't run on GitHub Actions
 
