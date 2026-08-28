@@ -12,8 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # one module failing shouldn't cancel the others
+      # dynamicair.co.th consistently rejects connections from GitHub's
+      # runner IP range (times out; works fine from a normal residential/
+      # office connection) — that module runs from the office PC's Task
+      # Scheduler instead. See .claude/task-scheduler-dynamicair.md.
       matrix:
-        module: [karshine, ecoair, dynamicair, cooltech, wise, wizard]
+        module: [karshine, ecoair, cooltech, wise, wizard]
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
