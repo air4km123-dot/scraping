@@ -2,9 +2,11 @@ name: Daily scrape
 
 on:
   schedule:
-    # 00:00 UTC = 07:00 Asia/Bangkok (UTC+7). GitHub's cron can run a few
-    # minutes late during high load — that's normal, not a failure.
-    - cron: "0 0 * * *"
+    # 02:00 UTC = 09:00 Asia/Bangkok (UTC+7) — matches dynamicair's office-PC
+    # Task Scheduler time so every module lines up at the same hour. GitHub's
+    # cron can run a few minutes late during high load — that's normal, not
+    # a failure.
+    - cron: "0 2 * * *"
   workflow_dispatch: {} # lets us trigger a run manually from the Actions tab to test
 
 jobs:

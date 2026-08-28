@@ -9,14 +9,14 @@ one dashboard. Built to run on free-tier infrastructure only.
 - [x] Phase 0 — repo & schema
 - [x] Phase 1 — first scraper module (`karshine`, 92 products / 184 rows)
 - [x] Phase 2 — storage & dedup (Supabase, verified across reruns)
-- [x] Phase 3 — daily automation (GitHub Actions cron, 07:00 Asia/Bangkok, verified live)
+- [x] Phase 3 — daily automation (GitHub Actions cron, 09:00 Asia/Bangkok, verified live)
 - [x] Phase 4 — dashboard v1 (`web/`, Next.js — deployed to Vercel, verified live)
 - [x] Phase 5a — `ecoair`, `dynamicair`, `cooltech` added (lineup-only, no published prices)
 - [x] Phase 5b — `wise`, `wizard` added (wise has prices via WooCommerce; wizard is lineup-only). 6/10 competitors covered; still open: Freshair, Speedclean, U Cool, NWP — need confirmed target URLs
 - [x] Dashboard v2 — sidebar nav (เปรียบเทียบราคา / งบกำไรขาดทุน / ข่าวอัพเดท), day-over-day price arrows (▲ green / ▼ red)
 - [x] `news` module — Google News RSS (per-competitor queries) + Thairath/Prachachat RSS (keyword-filtered), daily via GitHub Actions. See ToS caveat below.
 - [x] `financials` — manual-entry only (`scripts/add_financials.py`); DBD DataWarehouse blocks automated scraping (Incapsula bot protection, verified). No automated schedule.
-- [ ] Phase 6 — failure monitoring & alerts
+- [x] Phase 6 — Telegram alerts. GitHub Actions' 6 modules get one aggregated daily summary (`notify` job); `dynamicair` (runs locally — see below) sends its own message via `scripts/notify_telegram.py`. Any future Part 2 (P2W InterPlus) module that runs locally should call the same helper.
 
 ## Known issue: DBD financial data can't be automated
 
@@ -51,12 +51,18 @@ matrix and instead runs from a **Windows Task Scheduler task on the
 office PC**:
 
 - Task name: `ScrapingDynamicair`
-- Schedule: weekdays only (Mon–Fri), 09:00
+- Schedule: weekdays only (Mon–Fri), 09:00 — same hour as the GitHub
+  Actions cron, so every module lines up at one time
 - Runs: `C:\Users\BD\run_dynamicair_task.bat` (kept outside the repo, at
   a space-free path, because `schtasks.exe`'s `/tr` argument doesn't
   reliably handle quoted paths containing spaces — it `cd`s into this
-  repo and calls `scripts/run_module.py dynamicair`)
+  repo, calls `scripts/run_module.py dynamicair`, then
+  `scripts/notify_telegram.py dynamicair success|failure` based on the
+  exit code)
 - Logs to `logs/dynamicair_task.log` (gitignored)
+- Needs `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` in the local `.env`
+  (same values as the GitHub Actions secrets) for the Telegram step to
+  send anything — it just prints a skip message and continues if unset
 - **Requires the office PC to be on and online at 09:00** — if it's off,
   asleep, or offline, that day's dynamicair run is silently skipped
   (no automatic catch-up run)
@@ -97,9 +103,13 @@ scripts/      one-off / shared utilities (e.g. backup, dedup helpers)
 2. `pip install -r requirements.txt`
 3. Apply every file in `schema/` to your Supabase/Postgres database, in
    numeric order (`001_init.sql`, then `002_scraped_date.sql`, ...).
-4. For GitHub Actions to run modules on schedule, add the same two
-   values from `.env` as repo Secrets (Settings → Secrets and variables →
-   Actions): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
+4. For GitHub Actions to run modules on schedule, add the same values
+   from `.env` as repo Secrets (Settings → Secrets and variables →
+   Actions): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and for
+   Telegram alerts `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` (create a
+   bot via @BotFather, get your chat id from @userinfobot, and message
+   your bot once first — Telegram won't let a bot message someone who
+   hasn't started a chat with it).
 5. Run a module manually: `python scripts/run_module.py karshine`.
 
 ## Portability note
