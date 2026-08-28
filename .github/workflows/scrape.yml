@@ -1,0 +1,27 @@
+name: Daily scrape
+
+on:
+  schedule:
+    # 00:00 UTC = 07:00 Asia/Bangkok (UTC+7). GitHub's cron can run a few
+    # minutes late during high load — that's normal, not a failure.
+    - cron: "0 0 * * *"
+  workflow_dispatch: {} # lets us trigger a run manually from the Actions tab to test
+
+jobs:
+  karshine:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run karshine module
+        run: python scripts/run_module.py karshine
