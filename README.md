@@ -7,11 +7,11 @@ one dashboard. Built to run on free-tier infrastructure only.
 ## Status
 
 - [x] Phase 0 — repo & schema
-- [ ] Phase 1 — first scraper module
-- [ ] Phase 2 — storage & dedup
-- [ ] Phase 3 — daily automation (GitHub Actions cron)
+- [x] Phase 1 — first scraper module (`karshine`, 92 products / 184 rows)
+- [x] Phase 2 — storage & dedup (Supabase, verified across reruns)
+- [x] Phase 3 — daily automation (GitHub Actions cron, 07:00 Asia/Bangkok, verified live)
 - [ ] Phase 4 — dashboard v1
-- [ ] Phase 5 — remaining modules
+- [ ] Phase 5 — remaining modules (Eco Air, Dynamicair, Cool Tech, WISE, Wizard Airklean, then Freshair/Speedclean/U Cool/NWP once their target URLs are confirmed)
 - [ ] Phase 6 — failure monitoring & alerts
 
 ## Project layout
@@ -28,7 +28,12 @@ scripts/      one-off / shared utilities (e.g. backup, dedup helpers)
 1. Copy `.env.example` to `.env` and fill in real values. `.env` is
    gitignored — never commit real keys.
 2. `pip install -r requirements.txt`
-3. Apply `schema/001_init.sql` to your Supabase/Postgres database.
+3. Apply every file in `schema/` to your Supabase/Postgres database, in
+   numeric order (`001_init.sql`, then `002_scraped_date.sql`, ...).
+4. For GitHub Actions to run modules on schedule, add the same two
+   values from `.env` as repo Secrets (Settings → Secrets and variables →
+   Actions): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
+5. Run a module manually: `python scripts/run_module.py karshine`.
 
 ## Portability note
 
