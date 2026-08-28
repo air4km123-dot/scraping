@@ -18,5 +18,8 @@ create index if not exists idx_scraped_data_module_field_time
 
 -- Loose duplicate guard: same module+field+value+source on the same day
 -- won't insert twice, so a rerun of a module doesn't pollute history.
+-- Cast to a fixed timezone (UTC) first — Postgres requires index expressions
+-- to be IMMUTABLE, and a bare ::date cast on timestamptz depends on the
+-- session's timezone setting, so it's rejected without this.
 create unique index if not exists uq_scraped_data_daily
-    on scraped_data (module, source_url, field, value, (scraped_at::date));
+    on scraped_data (module, source_url, field, value, ((scraped_at at time zone 'utc')::date));
