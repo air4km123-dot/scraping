@@ -17,6 +17,7 @@ one dashboard. Built to run on free-tier infrastructure only.
 - [x] `news` module — Google News RSS (per-competitor queries) + Thairath/Prachachat RSS (keyword-filtered), daily via GitHub Actions. See ToS caveat below.
 - [x] `financials` — manual-entry only (`scripts/add_financials.py`); DBD DataWarehouse blocks automated scraping (Incapsula bot protection, verified). No automated schedule.
 - [x] Phase 6 — Telegram alerts. GitHub Actions' 6 modules get one aggregated daily summary (`notify` job); `dynamicair` (runs locally — see below) sends its own message via `scripts/notify_telegram.py`. Any future Part 2 (P2W InterPlus) module that runs locally should call the same helper.
+- [x] Part 3 — `ai_news` module ("AI อัพเดท"): new AI model launches, capabilities, and standout features. OpenAI/Google AI/Gemini/DeepMind/Hugging Face blog RSS directly, plus Google News RSS for labs without a working feed (Anthropic, Meta AI, Mistral, xAI). Same Google News ToS caveat as `news`. Daily via GitHub Actions, 4th dashboard sidebar item.
 
 ## Known issue: DBD financial data can't be automated
 

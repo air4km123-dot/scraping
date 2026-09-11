@@ -290,6 +290,13 @@ td.price {
   color: var(--accent);
 }
 
+.news-summary {
+  margin: 0.4em 0 0;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
 .news-meta {
   display: flex;
   gap: 1em;

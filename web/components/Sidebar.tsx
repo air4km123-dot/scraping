@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { href: "/", label: "เปรียบเทียบราคา", hint: "Price Comparison" },
   { href: "/financials", label: "งบกำไรขาดทุน", hint: "Financial Reports" },
   { href: "/news", label: "ข่าวอัพเดท", hint: "Market & News" },
+  { href: "/ai-news", label: "AI อัพเดท", hint: "AI Model Updates" },
 ];
 
 export default function Sidebar() {
