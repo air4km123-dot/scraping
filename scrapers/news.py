@@ -19,8 +19,15 @@ Rows emitted per matched article:
   field="headline"      value=<article title>
   field="source"        value=<"Google News: <query>" or the outlet name>
   field="published_at"  value=<raw pubDate string from the feed>
+  field="summary"       value=<description, HTML stripped, translated
+                         to Thai if it wasn't already — see
+                         scripts/translate.py> — only when the feed
+                         provides one AND it says something the
+                         headline doesn't already say
 """
 
+import os
+import sys
 import time
 import xml.etree.ElementTree as ET
 from urllib.parse import quote
@@ -30,9 +37,15 @@ from bs4 import BeautifulSoup
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+# Make scripts/ importable regardless of whether this runs standalone
+# (python scrapers/news.py) or via scripts/run_module.py.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from scripts.translate import is_redundant, to_thai  # noqa: E402
+
 MODULE_NAME = "news"
 REQUEST_TIMEOUT_SECONDS = 30
 REQUEST_DELAY_SECONDS = 1.0
+SUMMARY_MAX_CHARS = 320
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -87,10 +100,18 @@ def _session() -> requests.Session:
     return session
 
 
+def _clean_summary(raw_html: str | None) -> str | None:
+    if not raw_html:
+        return None
+    text = BeautifulSoup(raw_html, "html.parser").get_text(" ", strip=True)
+    return text[:SUMMARY_MAX_CHARS] if text else None
+
+
 def _rows_for_item(item: ET.Element, source_label: str) -> list[dict]:
     title_el = item.find("title")
     link_el = item.find("link")
     date_el = item.find("pubDate")
+    desc_el = item.find("description")
     if title_el is None or link_el is None or not (link_el.text or "").strip():
         return []
 
@@ -106,6 +127,12 @@ def _rows_for_item(item: ET.Element, source_label: str) -> list[dict]:
     ]
     if published_at:
         rows.append({"module": MODULE_NAME, "source_url": link, "field": "published_at", "value": published_at})
+
+    summary = _clean_summary(desc_el.text if desc_el is not None else None)
+    # Google News search results often reuse the headline as the whole
+    # description — showing that again under the headline is just noise.
+    if summary and not is_redundant(summary, title):
+        rows.append({"module": MODULE_NAME, "source_url": link, "field": "summary", "value": to_thai(summary)})
     return rows
 
 

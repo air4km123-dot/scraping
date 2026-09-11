@@ -5,6 +5,7 @@ export type NewsItem = {
   headline: string | null;
   source: string | null;
   publishedAt: string | null;
+  summary: string | null;
 };
 
 export type NewsSnapshot = {
@@ -42,10 +43,12 @@ export async function fetchNews(): Promise<NewsSnapshot> {
       headline: null,
       source: null,
       publishedAt: null,
+      summary: null,
     };
     if (row.field === "headline") entry.headline = row.value;
     if (row.field === "source") entry.source = row.value;
     if (row.field === "published_at") entry.publishedAt = row.value;
+    if (row.field === "summary") entry.summary = row.value;
     byLink.set(row.source_url, entry);
   }
 

@@ -1,5 +1,6 @@
 import { fetchNews } from "@/lib/news";
 import ComingSoon from "@/components/ComingSoon";
+import NewsCard from "@/components/NewsCard";
 
 export const revalidate = 0;
 
@@ -52,15 +53,13 @@ export default async function NewsPage() {
 
       <ul className="news-list">
         {items.map((item) => (
-          <li key={item.link} className="news-item">
-            <a href={item.link} target="_blank" rel="noreferrer">
-              {item.headline ?? item.link}
-            </a>
-            <div className="news-meta">
-              {item.source && <span>{item.source}</span>}
-              {item.publishedAt && <span>{formatPublished(item.publishedAt)}</span>}
-            </div>
-          </li>
+          <NewsCard
+            key={item.link}
+            link={item.link}
+            headline={item.headline ?? item.link}
+            meta={[item.source, formatPublished(item.publishedAt)].filter((v): v is string => Boolean(v))}
+            summary={item.summary}
+          />
         ))}
       </ul>
     </div>

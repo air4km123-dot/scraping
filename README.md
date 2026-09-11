@@ -18,6 +18,7 @@ one dashboard. Built to run on free-tier infrastructure only.
 - [x] `financials` — manual-entry only (`scripts/add_financials.py`); DBD DataWarehouse blocks automated scraping (Incapsula bot protection, verified). No automated schedule.
 - [x] Phase 6 — Telegram alerts. GitHub Actions' 6 modules get one aggregated daily summary (`notify` job); `dynamicair` (runs locally — see below) sends its own message via `scripts/notify_telegram.py`. Any future Part 2 (P2W InterPlus) module that runs locally should call the same helper.
 - [x] Part 3 — `ai_news` module ("AI อัพเดท"): new AI model launches, capabilities, and standout features. OpenAI/Google AI/Gemini/DeepMind/Hugging Face blog RSS directly, plus Google News RSS for labs without a working feed (Anthropic, Meta AI, Mistral, xAI). Same Google News ToS caveat as `news`. Daily via GitHub Actions, 4th dashboard sidebar item.
+- [x] Free Thai translation for `news`/`ai_news` summaries (`scripts/translate.py`) + collapsible "ดูสรุป" summary on both dashboard pages (`components/NewsCard.tsx`). See caveat below on what this is and isn't.
 
 ## Known issue: DBD financial data can't be automated
 
@@ -42,6 +43,22 @@ Prachachat's own RSS feeds (ordinary outlet feeds, no such
 restriction) as a second, unrestricted source so a story missed by one
 still surfaces via the other. Worth revisiting if this ever gets used
 outside internal reporting.
+
+## Known limitation: `summary` is translated, not AI-summarized
+
+`news`/`ai_news` rows carry a `summary` field (`scripts/translate.py`)
+that's the *source's own* RSS description — usually already a short
+blurb — machine-translated to Thai via MyMemory (free, no API key).
+It is **not** a fresh AI-generated summary of the full article; a
+real Claude-quality summary was considered and explicitly declined by
+the user in favor of staying free. MyMemory has a daily quota per IP,
+so `translate.to_thai()` only translates text that isn't already
+Thai-dominant and silently falls back to the original text if the
+quota is hit or the request fails — a scraper run should never fail
+just because translation quota ran out for the day. On the dashboard,
+each article shows headline/source/date by default with a "ดูสรุป"
+button that expands the translated blurb — added so scanning many
+articles doesn't mean scrolling past a wall of text for every one.
 
 ## Known issue: `dynamicair` doesn't run on GitHub Actions
 

@@ -18,10 +18,15 @@ Rows emitted per article:
   field="headline"      value=<title>
   field="source"         value=<outlet or "Google News: <query>">
   field="published_at"  value=<raw pubDate string>
-  field="summary"       value=<description, HTML stripped, truncated>
-                         — only when the feed provides one
+  field="summary"       value=<description, HTML stripped, truncated,
+                         translated to Thai if it wasn't already — see
+                         scripts/translate.py>
+                         — only when the feed provides one AND it says
+                         something the headline doesn't already say
 """
 
+import os
+import sys
 import time
 import xml.etree.ElementTree as ET
 from urllib.parse import quote
@@ -30,6 +35,11 @@ import requests
 from bs4 import BeautifulSoup
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+
+# Make scripts/ importable regardless of whether this runs standalone
+# (python scrapers/ai_news.py) or via scripts/run_module.py.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from scripts.translate import is_redundant, to_thai  # noqa: E402
 
 MODULE_NAME = "ai_news"
 REQUEST_TIMEOUT_SECONDS = 30
@@ -107,8 +117,10 @@ def _rows_for_item(item: ET.Element, source_label: str) -> list[dict]:
         rows.append({"module": MODULE_NAME, "source_url": link, "field": "published_at", "value": published_at})
 
     summary = _clean_summary(desc_el.text if desc_el is not None else None)
-    if summary:
-        rows.append({"module": MODULE_NAME, "source_url": link, "field": "summary", "value": summary})
+    # Google News search results often reuse the headline as the whole
+    # description — showing that again under the headline is just noise.
+    if summary and not is_redundant(summary, title):
+        rows.append({"module": MODULE_NAME, "source_url": link, "field": "summary", "value": to_thai(summary)})
     return rows
 
 
