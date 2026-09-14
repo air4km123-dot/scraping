@@ -33,10 +33,11 @@ export default function Sidebar() {
         })}
       </ul>
 
-      {/* Intentionally near-invisible — not a real nav item, see
-          components/Sidebar.tsx / app/p2w for what it leads to. */}
-      <Link href="/p2w/login" className="sidebar-secret" aria-hidden="true" tabIndex={-1}>
-        &middot;
+      {/* TEMP: made fully visible with a label so the user can find it
+          once — see the matching TEMP comment in globals.css
+          (.sidebar-secret). Revert both back to hidden after. */}
+      <Link href="/p2w/login" className="sidebar-secret">
+        P2W →
       </Link>
     </nav>
   );
