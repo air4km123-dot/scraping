@@ -9,7 +9,7 @@ const NAV_ITEMS = [
   { href: "/p2w/engineering", label: "วิศวกรรม", hint: "Engineering" },
   { href: "/p2w/marketing", label: "ที่ปรึกษาการตลาด", hint: "Marketing" },
   { href: "/p2w/food", label: "วงการอาหาร", hint: "Food Industry" },
-  { href: "/p2w/events", label: "อีเว้นกรุงเทพ", hint: "Bangkok Events" },
+  { href: "/p2w/events", label: "อีเว้นภาคกลาง", hint: "Central Thailand Events" },
 ];
 
 export default function P2WSidebar() {

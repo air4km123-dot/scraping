@@ -119,7 +119,7 @@ thin `scrapers/*.py` file calls):
 | `engineering_news` | `/p2w/engineering` | Mechanical/other engineering fields, consulting work, certification training |
 | `marketing_news` | `/p2w/marketing` | Marketing consulting trends, training, Bangkok events |
 | `food_news` | `/p2w/food` | Food industry: raw materials, meat, production/shipping costs, new material sources |
-| `bangkok_events` | `/p2w/events` | Upcoming events/open registrations in Bangkok and nearby provinces |
+| `central_events` | `/p2w/events` | Upcoming events/open registrations across Central Thailand (Bangkok + wider central region) |
 
 All 6 run daily via the same GitHub Actions matrix as everything else
 (09:00 Asia/Bangkok) and get folded into the one Telegram summary.

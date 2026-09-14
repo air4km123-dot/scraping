@@ -5,10 +5,10 @@ export const revalidate = 0;
 export default function EventsPage() {
   return (
     <TopicNewsPage
-      module="bangkok_events"
+      module="central_events"
       eyebrow="P2W InterPlus — Internal Intelligence"
-      title="อีเว้นกรุงเทพ"
-      body="อีเว้นและกิจกรรมในกรุงเทพฯ และจังหวัดใกล้เคียงที่กำลังจะเกิดขึ้น หรือเปิดรับสมัคร"
+      title="อีเว้นภาคกลาง"
+      body="อีเว้นและกิจกรรมในกรุงเทพฯ และภาคกลางที่กำลังจะเกิดขึ้น หรือเปิดรับสมัคร"
     />
   );
 }

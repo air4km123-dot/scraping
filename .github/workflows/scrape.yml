@@ -22,7 +22,7 @@ jobs:
         module:
           [
             karshine, ecoair, cooltech, wise, wizard, news, ai_news,
-            solar_news, construction_news, engineering_news, marketing_news, food_news, bangkok_events,
+            solar_news, construction_news, engineering_news, marketing_news, food_news, central_events,
           ]
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
