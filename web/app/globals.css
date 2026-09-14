@@ -138,6 +138,37 @@ a { color: inherit; }
   color: var(--ink);
 }
 
+.p2w-login-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.p2w-login-actions button {
+  flex: 1;
+}
+
+.p2w-login-cancel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6em 0.7em;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: none;
+  color: var(--ink-soft);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.p2w-login-cancel:hover {
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+
 .p2w-login-card button {
   font-family: var(--sans);
   font-size: 0.9rem;
