@@ -19,6 +19,7 @@ one dashboard. Built to run on free-tier infrastructure only.
 - [x] Phase 6 — Telegram alerts. GitHub Actions' 6 modules get one aggregated daily summary (`notify` job); `dynamicair` (runs locally — see below) sends its own message via `scripts/notify_telegram.py`. Any future Part 2 (P2W InterPlus) module that runs locally should call the same helper.
 - [x] Part 3 — `ai_news` module ("AI อัพเดท"): new AI model launches, capabilities, and standout features. OpenAI/Google AI/Gemini/DeepMind/Hugging Face blog RSS directly, plus Google News RSS for labs without a working feed (Anthropic, Meta AI, Mistral, xAI). Same Google News ToS caveat as `news`. Daily via GitHub Actions, 4th dashboard sidebar item.
 - [x] Free Thai translation for `news`/`ai_news` summaries (`scripts/translate.py`) + collapsible "ดูสรุป" summary on both dashboard pages (`components/NewsCard.tsx`). See caveat below on what this is and isn't.
+- [x] Part 2 — P2W InterPlus, gated behind `/p2w` (password + hidden entry point). 6 industry-news topics: solar cell, construction/renovation, engineering, marketing consulting, food industry, Bangkok events. See "Part 2" section below.
 
 ## Known issue: DBD financial data can't be automated
 
@@ -89,6 +90,40 @@ If more competitors turn out to have the same GitHub-IP-blocking issue,
 reconsider a paid proxy instead of adding more per-machine scheduled
 tasks.
 
+## Part 2 (P2W InterPlus) — gated section
+
+Everything under `/p2w` is a completely separate area from Part 1 (Air
+4): its own sidebar, its own accent color (indigo, vs. Air 4's teal),
+no shared navigation. It never appears in Part 1's nav — the only way
+in from the homepage is a near-invisible `·` at the bottom of the Air
+4 sidebar (`components/Sidebar.tsx`, `.sidebar-secret` in
+`app/globals.css`), which links to `/p2w/login`.
+
+**Access control**: `middleware.ts` protects every `/p2w/*` route
+except `/p2w/login`. The login page POSTs to `app/api/p2w-login/route.ts`,
+which checks the submitted code against the `P2W_ACCESS_CODE` env var
+and, on success, sets an httpOnly cookie holding a SHA-256 hash of the
+code (never the code itself — see `lib/p2w-auth.ts`) valid for 30 days
+under path `/p2w`. `app/api/p2w-logout/route.ts` clears it. Set
+`P2W_ACCESS_CODE` in `web/.env.local` for local dev and as a Vercel
+Project Environment Variable for production — never commit it.
+
+**Topics** (all 6 are Google News RSS, same pattern/ToS caveat as
+`news` — see `scripts/topic_news.py`, the shared scraper every topic's
+thin `scrapers/*.py` file calls):
+
+| Module | Dashboard route | Covers |
+|---|---|---|
+| `solar_news` | `/p2w/solar` | Solar cell industry in Thailand: government/support programs, new products, pricing |
+| `construction_news` | `/p2w/construction` | Construction/renovation: materials (cement, steel, sand), decor, bank/government support programs |
+| `engineering_news` | `/p2w/engineering` | Mechanical/other engineering fields, consulting work, certification training |
+| `marketing_news` | `/p2w/marketing` | Marketing consulting trends, training, Bangkok events |
+| `food_news` | `/p2w/food` | Food industry: raw materials, meat, production/shipping costs, new material sources |
+| `bangkok_events` | `/p2w/events` | Upcoming events/open registrations in Bangkok and nearby provinces |
+
+All 6 run daily via the same GitHub Actions matrix as everything else
+(09:00 Asia/Bangkok) and get folded into the one Telegram summary.
+
 ## Dashboard (`web/`)
 
 Next.js app, reads the latest day's rows per module straight from
@@ -102,8 +137,8 @@ npm run dev
 ```
 
 To deploy: import this repo on vercel.com (root directory `web/`), add
-`SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as Project Environment
-Variables (same values as the root `.env` / GitHub Actions secrets).
+`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `P2W_ACCESS_CODE` as
+Project Environment Variables (same values as `web/.env.local`).
 
 ## Project layout
 

@@ -54,6 +54,123 @@ a { color: inherit; }
   background: var(--sidebar-bg);
   border-right: 1px solid var(--line);
   padding: 1.6rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Part 2 (P2W InterPlus) reskins the same components with a distinct
+   accent + sidebar tint via custom-property overrides scoped to this
+   class — everything under it (.card, .price-arrow, links, etc.)
+   already reads these tokens, so no component duplication needed. */
+.p2w-shell {
+  --accent: #4338ca;
+  --accent-soft: #e3e1fb;
+  --sidebar-bg: #eeecfb;
+}
+
+@media (prefers-color-scheme: dark) {
+  .p2w-shell {
+    --accent: #918bf4;
+    --accent-soft: #2b2a5c;
+    --sidebar-bg: #16152b;
+  }
+}
+
+.p2w-logout {
+  margin-top: 1rem;
+  align-self: flex-start;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  padding: 0.45em 0.8em;
+  cursor: pointer;
+}
+
+.p2w-logout:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.p2w-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 1.5rem;
+}
+
+.p2w-login-card {
+  width: 100%;
+  max-width: 320px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.p2w-login-brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.p2w-login-sub {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.p2w-login-card input {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  padding: 0.6em 0.7em;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.p2w-login-card button {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6em 0.7em;
+  border: none;
+  border-radius: 6px;
+  background: #4338ca;
+  color: #fff;
+  cursor: pointer;
+}
+
+.p2w-login-card button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.p2w-login-error {
+  margin: 0;
+  color: var(--down);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.sidebar-secret {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 0.6em;
+  color: var(--ink-soft);
+  opacity: 0.25;
+  font-size: 0.7rem;
+  text-decoration: none;
+  cursor: default;
 }
 
 .sidebar-brand-name {

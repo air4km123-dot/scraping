@@ -19,7 +19,11 @@ jobs:
       # office connection) — that module runs from the office PC's Task
       # Scheduler instead. See .claude/task-scheduler-dynamicair.md.
       matrix:
-        module: [karshine, ecoair, cooltech, wise, wizard, news, ai_news]
+        module:
+          [
+            karshine, ecoair, cooltech, wise, wizard, news, ai_news,
+            solar_news, construction_news, engineering_news, marketing_news, food_news, bangkok_events,
+          ]
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

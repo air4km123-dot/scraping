@@ -32,6 +32,12 @@ export default function Sidebar() {
           );
         })}
       </ul>
+
+      {/* Intentionally near-invisible — not a real nav item, see
+          components/Sidebar.tsx / app/p2w for what it leads to. */}
+      <Link href="/p2w/login" className="sidebar-secret" aria-hidden="true" tabIndex={-1}>
+        &middot;
+      </Link>
     </nav>
   );
 }
