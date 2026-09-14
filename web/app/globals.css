@@ -166,17 +166,11 @@ a { color: inherit; }
   margin-top: auto;
   align-self: flex-start;
   padding: 0.6em;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border-radius: 4px;
-  opacity: 1;
-  font-size: 1.2rem;
-  font-weight: 700;
+  color: var(--ink-soft);
+  opacity: 0.25;
+  font-size: 0.7rem;
   text-decoration: none;
-  cursor: pointer;
-  /* TEMP: dialed up to full visibility so the user can find it once —
-     dial back to opacity:0.25 / cursor:default / remove background
-     afterward. See README "Part 2" section. */
+  cursor: default;
 }
 
 .sidebar-brand-name {
