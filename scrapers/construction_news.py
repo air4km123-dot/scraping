@@ -3,8 +3,10 @@ Module: construction_news — Part 2 (P2W InterPlus).
 
 Construction/renovation industry: home building, renovation, materials
 (steel, cement, sand/gravel), decor materials, bank/government support
-programs. Google News RSS, same pattern (and ToS caveat) as
-scrapers/news.py.
+programs, and top-brand marketing campaigns (general market
+intelligence, not specific named competitors — P2W has none defined
+for this venture, unlike Air 4's Part 1). Google News RSS, same
+pattern (and ToS caveat) as scrapers/news.py.
 """
 
 import os
@@ -21,6 +23,8 @@ QUERIES = [
     "วัสดุตกแต่งบ้าน เทรนด์ใหม่",
     "สินเชื่อสร้างบ้าน ต่อเติม ธนาคาร",
     "โครงการภาครัฐ สนับสนุนสร้างบ้าน",
+    "วัสดุก่อสร้าง แคมเปญการตลาด แบรนด์ดัง",
+    "ผู้รับเหมา ก่อสร้าง โปรโมชั่น ลูกค้า",
 ]
 
 

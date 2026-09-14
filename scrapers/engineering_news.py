@@ -3,8 +3,10 @@ Module: engineering_news — Part 2 (P2W InterPlus).
 
 Engineering industry: mechanical and other engineering fields,
 industry updates, engineering consulting work, training/certification
-courses (ใบเซอร์). Google News RSS, same pattern (and ToS caveat) as
-scrapers/news.py.
+courses (ใบเซอร์), and top-firm marketing/campaign activity (general
+market intelligence, not specific named competitors — P2W has none
+defined for this venture, unlike Air 4's Part 1). Google News RSS,
+same pattern (and ToS caveat) as scrapers/news.py.
 """
 
 import os
@@ -21,6 +23,7 @@ QUERIES = [
     "วิศวกรรมโยธา เทรนด์ใหม่",
     "อบรมวิศวกร รับใบเซอร์",
     "วิศวกรรมไฟฟ้า โซล่าเซลล์ ข่าว",
+    "บริษัทวิศวกรรม แคมเปญ ลูกค้าใหม่",
 ]
 
 

@@ -2,8 +2,10 @@
 Module: food_news — Part 2 (P2W InterPlus).
 
 Food industry: raw materials, meat, production costs, product costs,
-shipping costs, new material sources. Google News RSS, same pattern
-(and ToS caveat) as scrapers/news.py.
+shipping costs, new material sources, and top-brand campaigns (general
+market intelligence — CP/Betagro etc. are the frozen-food category's
+well-known leaders, not competitors P2W named specifically). Google
+News RSS, same pattern (and ToS caveat) as scrapers/news.py.
 """
 
 import os
@@ -20,6 +22,8 @@ QUERIES = [
     "แหล่งวัตถุดิบอาหารแช่แข็ง ใหม่",
     "อาหารแช่แข็ง ตลาด เทรนด์",
     "ราคาสินค้าเกษตร วัตถุดิบ ปศุสัตว์",
+    "อาหารแช่แข็ง แคมเปญการตลาด CP เบทาโก",
+    "อาหารแช่แข็ง โปรโมชั่น แบรนด์ดัง",
 ]
 
 

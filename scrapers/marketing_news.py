@@ -2,8 +2,10 @@
 Module: marketing_news — Part 2 (P2W InterPlus).
 
 Marketing consulting industry: trends, training courses, events in
-Bangkok, related news. Google News RSS, same pattern (and ToS caveat)
-as scrapers/news.py.
+Bangkok, related news, and top-brand campaigns (general market
+intelligence, not specific named competitors — P2W has none defined
+for this venture, unlike Air 4's Part 1). Google News RSS, same
+pattern (and ToS caveat) as scrapers/news.py.
 """
 
 import os
@@ -19,6 +21,7 @@ QUERIES = [
     "การตลาดออนไลน์ เทรนด์ 2569",
     "งานอีเว้นการตลาด กทม.",
     "กลยุทธ์การตลาด SME ไทย",
+    "แบรนด์ดัง แคมเปญการตลาด ล่าสุด",
 ]
 
 
