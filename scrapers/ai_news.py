@@ -1,8 +1,13 @@
 """
 Module: ai_news — Part 3, "AI อัพเดท".
 
-Tracks newly announced AI models: what shipped, what it can do, what
-its standout feature is. Two source types, same pattern as news.py:
+Tracks newly announced AI models AND new features shipped to existing
+ones — what's new, what it can do, what its standout feature is.
+Centered on 5 companies: OpenAI (ChatGPT), Google (Gemini/DeepMind),
+Anthropic (Claude), Meta AI (Llama), and xAI (Grok) — the first 3 are
+the user's named priority, the last 2 are the "2 more prominent
+companies" they asked to round it out with. Two source types, same
+pattern as news.py:
 
 1. Official company blog RSS — OpenAI, Google AI Blog, Google Gemini
    Blog, DeepMind Blog, Hugging Face Blog. Ordinary outlet feeds, no
@@ -65,6 +70,7 @@ OFFICIAL_FEEDS = {
 }
 
 GOOGLE_NEWS_QUERIES = [
+    # Model launches, per lab/model family
     "Anthropic Claude เปิดตัวโมเดลใหม่",
     "Meta AI Llama เปิดตัว",
     "Mistral AI เปิดตัวโมเดล",
@@ -72,6 +78,16 @@ GOOGLE_NEWS_QUERIES = [
     "OpenAI GPT เปิดตัวโมเดลใหม่",
     "Google Gemini เปิดตัวโมเดลใหม่",
     "AI โมเดลใหม่ เปิดตัว ความสามารถ",
+    # New-feature coverage specifically, per the 5 companies the user
+    # asked to track: ChatGPT/OpenAI, Gemini/Google, Claude/Anthropic,
+    # plus Meta AI (Llama) and xAI (Grok) as the "2 more prominent" ones.
+    "ChatGPT ฟีเจอร์ใหม่ อัปเดต",
+    "OpenAI ฟีเจอร์ใหม่",
+    "Gemini ฟีเจอร์ใหม่ อัปเดต",
+    "Google AI ฟีเจอร์ใหม่",
+    "Claude Anthropic ฟีเจอร์ใหม่",
+    "Meta AI Llama ฟีเจอร์ใหม่",
+    "Grok xAI ฟีเจอร์ใหม่",
 ]
 GOOGLE_NEWS_ITEMS_PER_QUERY = 4
 
