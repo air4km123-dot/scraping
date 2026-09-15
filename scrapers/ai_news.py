@@ -88,6 +88,19 @@ GOOGLE_NEWS_QUERIES = [
     "Claude Anthropic ฟีเจอร์ใหม่",
     "Meta AI Llama ฟีเจอร์ใหม่",
     "Grok xAI ฟีเจอร์ใหม่",
+    # Version-over-version capability upgrades to existing features —
+    # e.g. "image gen v2.5 is faster/more accurate than v2" — broken
+    # out by capability area since that's the angle the user asked for
+    # specifically (not just "a new feature exists" but "this version
+    # is better than the last one, here's how").
+    "ChatGPT เจนภาพ เวอร์ชั่นใหม่ ดีขึ้น",
+    "Gemini Imagen เจนภาพ เวอร์ชั่นใหม่",
+    "Grok เจนภาพ เวอร์ชั่นใหม่",
+    "Sora วิดีโอ AI เวอร์ชั่นใหม่",
+    "Google Veo วิดีโอ AI เวอร์ชั่นใหม่",
+    "Claude เวอร์ชั่นใหม่ อัปเกรดความสามารถ",
+    "AI เขียนโค้ด เวอร์ชั่นใหม่ ดีขึ้นกว่าเดิม",
+    "AI เจนภาพ เวอร์ชั่นใหม่ ดีขึ้นกว่าเดิม",
 ]
 GOOGLE_NEWS_ITEMS_PER_QUERY = 4
 
