@@ -1,4 +1,5 @@
-import { fetchAllSnapshots, Product } from "@/lib/data";
+import { fetchAllSnapshots } from "@/lib/data";
+import ProductTable from "@/components/ProductTable";
 
 export const revalidate = 0; // always read the latest rows from Supabase, no caching
 
@@ -9,31 +10,6 @@ function formatDate(d: string | null) {
     month: "short",
     day: "numeric",
   });
-}
-
-function PriceCell({ product }: { product: Product }) {
-  if (!product.priceThb) return <td className="price">—</td>;
-
-  const diff =
-    product.priceChange && product.previousPriceThb
-      ? Number(product.priceThb) - Number(product.previousPriceThb)
-      : null;
-
-  return (
-    <td className="price">
-      <span className="price-value">{product.priceThb}</span>
-      {product.priceChange === "up" && (
-        <span className="price-arrow up" title={`เพิ่มขึ้น ${diff} บาท จาก ${product.previousPriceThb}`}>
-          ▲ {diff}
-        </span>
-      )}
-      {product.priceChange === "down" && (
-        <span className="price-arrow down" title={`ลดลง ${Math.abs(diff ?? 0)} บาท จาก ${product.previousPriceThb}`}>
-          ▼ {diff}
-        </span>
-      )}
-    </td>
-  );
 }
 
 export default async function Page() {
@@ -48,7 +24,8 @@ export default async function Page() {
           Product lineups scraped daily from each competitor&apos;s own website. Where a
           price changed from the previous scrape, it&apos;s marked with{" "}
           <span className="price-arrow up">▲</span> for an increase or{" "}
-          <span className="price-arrow down">▼</span> for a decrease.
+          <span className="price-arrow down">▼</span> for a decrease. Click a column header
+          to sort.
         </p>
       </header>
 
@@ -63,26 +40,7 @@ export default async function Page() {
             {s.products.length === 0 ? (
               <p className="empty">No data yet — run this module once.</p>
             ) : (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Product</th>
-                    <th>Price (THB)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {s.products.map((p) => (
-                    <tr key={p.sourceUrl}>
-                      <td>
-                        <a href={p.sourceUrl} target="_blank" rel="noreferrer">
-                          {p.name ?? p.sourceUrl}
-                        </a>
-                      </td>
-                      <PriceCell product={p} />
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <ProductTable products={s.products} />
             )}
           </section>
         ))}
